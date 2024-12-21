@@ -45,9 +45,9 @@ export async function POST(req: Request) {
         ...messages.filter((message: Message) => message.role === "user"),
       ],
 
-      onChunk: async () => {
-        messages.writeMessageAnnotation({ chunk: "123" });
-      },
+      // onChunk: async () => {
+      //   messages.writeMessageAnnotation({ chunk: "123" });
+      // },
 
       onFinish: async () => {
         // Sauvegarder le message utilisateur
