@@ -17,7 +17,7 @@ export async function POST(req: Request, res: Response) {
     const body = await req.json();
     const { file_key, file_name } = body;
 
-    console.log("Paramètres reçus : ", { file_key, file_name });
+    // console.log("Paramètres reçus : ", { file_key, file_name });
 
     await loadS3IntoPinecone(file_key);
     const chat_id = await db

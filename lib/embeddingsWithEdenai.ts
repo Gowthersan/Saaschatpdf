@@ -5,7 +5,7 @@ const url =
 
 export async function getEmbeddingsEdenAI(text: string) {
   try {
-    console.log("Texte envoyé :", text);
+    // console.log("Texte envoyé :", text);
 
     const response = await fetch(url, {
       method: "GET",
@@ -15,7 +15,7 @@ export async function getEmbeddingsEdenAI(text: string) {
       },
     });
 
-    console.log("Statut de la réponse :", response.status);
+    // console.log("Statut de la réponse :", response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -27,7 +27,7 @@ export async function getEmbeddingsEdenAI(text: string) {
     }
 
     const result = await response.json();
-    console.log("Réponse de l'API :", result);
+    // console.log("Réponse de l'API :", result);
 
     return result.data[0].embedding as number[];
   } catch (error) {

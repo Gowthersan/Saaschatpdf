@@ -1,15 +1,23 @@
+"use client";
+
 import { DrizzleChat } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
+import axios from "axios";
 import { MessageCircle, PlusCircle } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 import { Button } from "./ui/button";
+import SubscriptionButton from "./SubscriptionButton";
 
 type Props = {
   chats: DrizzleChat[];
   chatId: number;
+  isPro: boolean;
 };
 
-const ChatSideBar = ({ chatId, chats }: Props) => {
+const ChatSideBar = ({ chatId, chats, isPro }: Props) => {
+  const [loading, setLoading] = React.useState(false);
+
   return (
     <div className="w-full h-screen p-4 text-gray-200 bg-gray-900">
       <Link href={"/"}>
@@ -42,6 +50,7 @@ const ChatSideBar = ({ chatId, chats }: Props) => {
           <Link href="/"> Home </Link>
           <Link href="/"> Source</Link>
         </div>
+        <SubscriptionButton isPro={isPro} />
       </div>
     </div>
   );

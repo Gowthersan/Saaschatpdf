@@ -8,8 +8,8 @@ const openai = new OpenAIApi(config);
 
 export async function getEmbeddings(text: string) {
   try {
-    console.log("Clé API utilisée :", process.env.OPENAI_API_KEY);
-    console.log("Texte envoyé :", text);
+    // console.log("Clé API utilisée :", process.env.OPENAI_API_KEY);
+    // console.log("Texte envoyé :", text);
 
     const response = await fetch("https://api.openai.com/v1/embeddings", {
       method: "POST",
@@ -23,13 +23,13 @@ export async function getEmbeddings(text: string) {
       }),
     });
 
-    console.log("Clé API :", process.env.OPENAI_API_KEY);
+    // console.log("Clé API :", process.env.OPENAI_API_KEY);
 
-    console.log("Statut de la réponse :", response.status);
-    console.log("Réponse brute :", response);
+    // console.log("Statut de la réponse :", response.status);
+    // console.log("Réponse brute :", response);
 
     const result = await response.json();
-    console.log("Réponse de l'API :", result);
+    // console.log("Réponse de l'API :", result);
 
     return result.data[0].embedding as number[];
   } catch (error) {

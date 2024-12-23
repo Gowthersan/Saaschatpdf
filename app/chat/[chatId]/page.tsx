@@ -2,7 +2,8 @@ import ChatComponent from "@/components/ChatComponent";
 import ChatSideBar from "@/components/ChatSideBar";
 import PDFViewer from "@/components/PDFViewer";
 import { db } from "@/lib/db";
-import { chats } from "@/lib/db/schema";
+import { chats, messages } from "@/lib/db/schema";
+import { checkSubscription } from "@/lib/subscription";
 import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
@@ -32,12 +33,24 @@ const ChatPage = async ({ params }: Props) => {
     return redirect("/");
   }
 
+  const isPro = await checkSubscription();
+
+  const _messages = await db
+    .select()
+    .from(messages)
+    .where(eq(messages.chatId, parseInt(chatId)));
+
+  const initialMessages = _messages.map((message) => ({
+    ...message,
+    id: message.id.toString(),
+  }));
+
   return (
     <div className="flex max-h-screen overflow-hidden">
       <div className="flex w-full max-h-screen">
         {/* Chat side bar here */}
         <div className="flex-[1] max-w-xs">
-          <ChatSideBar chats={_chats} chatId={parseInt(chatId)} />
+          <ChatSideBar chats={_chats} chatId={parseInt(chatId)} isPro={isPro} />
         </div>
         {/* PDF viewer here */}
         <div className="max-h-screen p-4 flex-[5]">
@@ -45,7 +58,10 @@ const ChatPage = async ({ params }: Props) => {
         </div>
         {/* Message bar here */}
         <div className="flex-[3] border-l-4 border-l-slate-200">
-          <ChatComponent chatId={parseInt(chatId)} />
+          <ChatComponent
+            chatId={parseInt(chatId)}
+            initialMessages={initialMessages || []}
+          />
         </div>
       </div>
     </div>
